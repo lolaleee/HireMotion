@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy-0: 10 17 32;
+  --navy-1: 14 23 41;
+  --navy-2: 20 32 58;
+  --navy-3: 28 44 74;
+  --ink-2: 139 150 172;
+  --ink-1: 199 206 221;
+  --ink-0: 243 245 249;
+  --card-bg-soft: rgba(14, 23, 41, 0.72);
+  --card-border: rgba(199, 206, 221, 0.12);
+  --field-bg: rgba(20, 32, 58, 0.5);
+}
+[data-theme="light"] {
+  --navy-0: 246 248 250;
+  --navy-1: 255 255 255;
+  --navy-2: 235 240 244;
+  --navy-3: 214 222 228;
+  --ink-2: 86 101 115;
+  --ink-1: 47 61 73;
+  --ink-0: 20 30 40;
+  --card-bg-soft: rgba(255, 255, 255, 0.75);
+  --card-border: rgba(20, 25, 40, 0.1);
+  --field-bg: #f6f7fa;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: rgb(var(--navy-0));
+  color: rgb(var(--ink-0));
+}
+
+@keyframes driftA {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-60px, 50px); }
+}
+@keyframes driftB {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(50px, -40px); }
+}
+@keyframes driftC {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-45%, -55%) scale(1.12); }
+}
+@keyframes floatCharacter {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-6deg); }
+  25% { transform: translate3d(18px, -14px, 0) rotate(-4deg); }
+  50% { transform: translate3d(-12px, 10px, 0) rotate(-8deg); }
+  75% { transform: translate3d(16px, 18px, 0) rotate(-5deg); }
+}
+@keyframes floatPortrait {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes shimmer {
+  0%, 100% { opacity: 0.8; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.18); }
+}
+@keyframes glowEye {
+  0%, 100% { box-shadow: 0 0 16px rgba(255,255,255,0.9), 0 0 34px rgba(255,255,255,0.6); }
+  50% { box-shadow: 0 0 22px rgba(255,255,255,1), 0 0 42px rgba(255,255,255,0.8); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .teal-blob { animation: none !important; }
+  .hiremotion-image { animation: none !important; }
+}
+
+.login-shell {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9), transparent 20%),
+    radial-gradient(circle at 75% 25%, rgba(255,255,255,0.5), transparent 18%),
+    linear-gradient(135deg, #e7e7e7 0%, #d8d8d8 35%, #efefef 100%);
+  color: rgb(var(--ink-0));
+}
+
+.login-layout {
+  position: relative;
+  z-index: 2;
+  width: min(1100px, calc(100% - 48px));
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 2rem;
+}
+
+.login-copy {
+  position: relative;
+  z-index: 3;
+  color: #1f2430;
+  padding-left: 2rem;
+}
+
+.login-kicker {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-weight: 700;
+  color: rgba(35, 46, 64, 0.72);
+  margin-bottom: 1rem;
+}
+
+.login-copy h2 {
+  margin: 0;
+  max-width: 420px;
+  font-size: clamp(2.2rem, 3vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  font-weight: 700;
+}
+
+.login-scene {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.95;
+  z-index: 1;
+}
+
+.hiremotion-image {
+  display: block;
+  width: min(470px, 42vw);
+  max-height: 84vh;
+  margin-left: 0;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  animation: floatPortrait 10s ease-in-out infinite;
+  filter: drop-shadow(0 28px 30px rgba(20, 20, 24, 0.24));
+}
+
+@media (max-width: 760px) {
+  .login-shell {
+    flex-direction: column;
+  }
+
+  .login-layout {
+    width: min(100% - 32px, 28rem);
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .login-copy {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .login-copy h2 {
+    max-width: none;
+    font-size: 2.25rem;
+  }
+
+  .login-scene {
+    position: relative;
+    inset: auto;
+    align-items: flex-start;
+    width: 100%;
+    height: 180px;
+    flex: 0 0 180px;
+    flex-shrink: 0;
+    padding-top: 0;
+    opacity: 0.95;
+  }
+
+  .hiremotion-image {
+    width: min(300px, 70vw);
+    max-height: 180px;
+    margin-left: 0;
+  }
+
+  .login-card {
+    margin-top: 1rem;
+  }
+}
+
+.login-card {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 28rem);
+  background: rgba(255,255,255,0.52);
+  backdrop-filter: blur(18px);
+  border-color: rgba(30, 30, 30, 0.08);
+}
+
+@layer components {
+  .panel {
+    @apply bg-[var(--card-bg-soft)] backdrop-blur border border-[var(--card-border)] rounded-xl px-6 py-5 mb-5;
+  }
+  .field-input {
+    @apply w-full bg-[var(--field-bg)] border border-[var(--card-border)] rounded-lg px-3 py-2.5 text-ink-0 text-sm;
+  }
+}

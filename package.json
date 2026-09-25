@@ -1,0 +1,30 @@
+{
+  "name": "hiremotion-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:candidate": "vite --config vite.config.candidate.js",
+    "dev:hr": "vite --config vite.config.hr.js",
+    "build": "vite build",
+    "build:candidate": "vite build --config vite.config.candidate.js",
+    "build:hr": "vite build --config vite.config.hr.js",
+    "preview": "vite preview",
+    "preview:candidate": "vite preview --config vite.config.candidate.js",
+    "preview:hr": "vite preview --config vite.config.hr.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.4.0"
+  }
+}
