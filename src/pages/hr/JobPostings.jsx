@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { jobPostings, applications, talentPoolMatches } from "../../lib/mockData";
+import { jobPostings } from "../../lib/mockData";
 import ThemeToggle from "../../components/ThemeToggle";
 import { supabase } from "../../lib/supabaseClient";
 import { useAuth } from "../../lib/AuthContext";
-import { buildTalentReuseRecommendations } from "../../lib/hiringLogic";
 
 const DEPARTMENTS = ["Quality Control", "Store", "HR and Admin", "HSE", "Sales", "Operations"];
 
@@ -86,33 +85,8 @@ export default function JobPostings() {
         </div>
       </div>
 
-      <div className="mb-6 rounded-xl border border-[var(--card-border)] bg-navy-1 p-4">
-        <p className="text-xs uppercase tracking-[0.12em] text-ink-2 mb-2">Talent reuse</p>
-        <div className="flex flex-wrap gap-2.5">
-          {(() => {
-            const reuse = buildTalentReuseRecommendations({
-              job: rows[0] || { title: "Current role", description: "", requirements: "" },
-              candidates: applications,
-              talentPoolMatches,
-            });
-            return reuse.slice(0, 3).map((candidate) => (
-              <span key={candidate.id} className="rounded-full bg-teal/10 px-2.5 py-1 text-[11px] text-teal">
-                {candidate.candidate} · {candidate.score}%
-              </span>
-            ));
-          })()}
-          <span className="rounded-full bg-amber/10 px-2.5 py-1 text-[11px] text-amber">Reopen role → review top-fit candidates</span>
-        </div>
-      </div>
-
       <div className="flex flex-col gap-2.5 mb-8">
         {!loading && rows.map((job) => {
-          const reuseCandidates = buildTalentReuseRecommendations({
-            job,
-            candidates: applications,
-            talentPoolMatches,
-          });
-
           return (
             <div key={job.id} className="flex flex-wrap items-center justify-between gap-3.5 bg-navy-1 border border-[var(--card-border)] rounded-xl px-4 py-4 hover:border-teal/50 transition-colors">
               <a href={`/hr/applications?job=${encodeURIComponent(job.id)}`} className="flex-1 min-w-[250px]">
@@ -124,11 +98,6 @@ export default function JobPostings() {
                     <span className="mr-3">{job.employment_type}</span>
                     <span>{job.deadline}</span>
                   </p>
-                  {reuseCandidates.length > 0 && (
-                    <p className="text-[11px] text-teal mt-1.5">
-                      Reuse talent: {reuseCandidates.length} strong candidate{reuseCandidates.length > 1 ? "s" : ""} ready to revisit.
-                    </p>
-                  )}
                 </div>
               </a>
               <div className="flex items-center gap-3.5 flex-wrap">
@@ -175,7 +144,7 @@ export default function JobPostings() {
           <Field label="Employment type">
             <select name="employmentType" value={form.employmentType} onChange={updateField} className="field-input"><option>Full-time</option><option>Contract</option><option>Part-time</option></select>
           </Field>
-          <Field label="Deadline"><input type="date" className="field-input" /></Field>
+          <Field label="Deadline"><input name="deadline" type="date" value={form.deadline} onChange={updateField} className="field-input" /></Field>
         </div>
           <Field label="Job description"><textarea name="description" value={form.description} onChange={updateField} placeholder="What the role involves day to day" required className="field-input min-h-[70px]" /></Field>
         <Field label="Requirements"><textarea name="requirements" value={form.requirements} onChange={updateField} placeholder="e.g. 3+ years in HR, degree in any field" required className="field-input min-h-[70px]" /></Field>

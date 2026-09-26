@@ -39,31 +39,30 @@ export default function Login() {
 
   return (
     <main className="login-shell">
-      <div className="login-scene" aria-hidden="true">
+      <section className="login-scene" aria-label="HireMotion">
         <img className="hiremotion-image" src={characterImage} alt="" />
-      </div>
-
-      <div className="login-layout">
         <div className="login-copy">
           <p className="login-kicker">HireMotion</p>
           <h2>Smart hiring for teams that move fast.</h2>
         </div>
+      </section>
 
+      <div className="login-layout">
         <form onSubmit={handleSubmit} className="login-card panel mb-0">
-        <Link to="/" className="text-[1.05rem] font-semibold tracking-tight">
-          Hire<span className="text-teal">Motion</span>
-        </Link>
-        <p className="mt-10 text-sm uppercase tracking-[0.18em] text-teal">HR workspace</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Sign in</h1>
-        <p className="mt-2 text-sm text-ink-2">Use your HR account to manage hiring activity.</p>
-        <label className="block mt-8 text-sm text-ink-1">
-          Email
-          <input className="field-input mt-2" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required />
-        </label>
-        <label className="block mt-4 text-sm text-ink-1">
-          Password
-          <input className="field-input mt-2" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required />
-        </label>
+          <Link to="/" className="text-[1.05rem] font-semibold tracking-tight">
+            Hire<span className="text-teal">Motion</span>
+          </Link>
+          <p className="mt-10 text-sm uppercase tracking-[0.18em] text-teal">HR workspace</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Sign in</h1>
+          <p className="mt-2 text-sm text-ink-2">Use your HR account to manage hiring activity.</p>
+          <label className="block mt-8 text-sm text-ink-1">
+            Email
+            <input className="field-input mt-2" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required />
+          </label>
+          <label className="block mt-4 text-sm text-ink-1">
+            Password
+            <input className="field-input mt-2" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required />
+          </label>
           {error && <p className="mt-4 text-sm text-bad">{error}</p>}
           <button className="mt-6 w-full rounded-lg bg-teal px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60" type="submit" disabled={submitting}>
             {submitting ? "Signing in..." : "Sign in"}
