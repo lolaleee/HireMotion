@@ -14,6 +14,7 @@ import Settings from "../pages/hr/Settings";
 export default function HrApp() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/hr/login" replace />} />
       <Route path="/hr/login" element={<Login />} />
       <Route path="/hr" element={<ProtectedRoute />}>
         <Route element={<HrLayout />}>
