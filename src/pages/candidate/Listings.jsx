@@ -15,17 +15,31 @@ export default function Listings() {
   useEffect(() => {
     if (!supabase) return undefined;
     let mounted = true;
-    Promise.all([
-      supabase.from("job_postings").select("*").eq("is_open", true).order("created_at", { ascending: false }),
-      supabase.rpc("get_public_company_name"),
-    ]).then(([jobsResult, companyResult]) => {
+    async function loadListings() {
+      const [jobsResult, companyResult] = await Promise.all([
+        supabase.from("job_postings").select("*").eq("is_open", true).order("created_at", { ascending: false }),
+        supabase.rpc("get_public_company_name"),
+      ]);
       if (!mounted) return;
       if (jobsResult.error) setError("Open roles are temporarily unavailable.");
-      else setJobs(jobsResult.data ?? []);
+      else {
+        setError("");
+        setJobs(jobsResult.data ?? []);
+      }
       if (!companyResult.error && companyResult.data) setCompanyName(companyResult.data);
       setLoading(false);
-    });
-    return () => { mounted = false; };
+    }
+    function refreshWhenVisible() {
+      if (document.visibilityState === "visible") void loadListings();
+    }
+    void loadListings();
+    window.addEventListener("focus", refreshWhenVisible);
+    document.addEventListener("visibilitychange", refreshWhenVisible);
+    return () => {
+      mounted = false;
+      window.removeEventListener("focus", refreshWhenVisible);
+      document.removeEventListener("visibilitychange", refreshWhenVisible);
+    };
   }, []);
 
   const filtered = activeDept === "All departments" ? jobs : jobs.filter((j) => j.department === activeDept);

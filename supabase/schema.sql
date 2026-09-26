@@ -353,11 +353,11 @@ on public.job_postings for insert
 to authenticated
 with check (public.is_company_member(company_id));
 
-create policy "Owners can update company postings"
+create policy "Company members can update company postings"
 on public.job_postings for update
 to authenticated
-using (public.is_company_owner(company_id))
-with check (public.is_company_owner(company_id));
+using (public.is_company_member(company_id))
+with check (public.is_company_member(company_id));
 
 create policy "Public can submit to open postings"
 on public.applications for insert

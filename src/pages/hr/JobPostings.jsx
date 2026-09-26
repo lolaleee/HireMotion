@@ -47,9 +47,9 @@ export default function JobPostings() {
     if (!supabase) return setError("Supabase is not configured for job updates.");
     setActionLoadingId(jobId);
     setError("");
-    const { error: updateError } = await supabase.from("job_postings").update({ is_open: nextOpen, updated_at: new Date().toISOString() }).eq("id", jobId);
+    const { data: updatedJob, error: updateError } = await supabase.from("job_postings").update({ is_open: nextOpen, updated_at: new Date().toISOString() }).eq("id", jobId).select("id").maybeSingle();
     setActionLoadingId(null);
-    if (updateError) return setError(updateError.message);
+    if (updateError || !updatedJob) return setError(updateError?.message || "Posting was not updated. Check your company permissions.");
     setRows((current) => current.map((job) => job.id === jobId ? { ...job, is_open: nextOpen } : job));
   }
 
@@ -60,9 +60,9 @@ export default function JobPostings() {
     setError("");
 
     if (applicationCount > 0) {
-      const { error: closeError } = await supabase.from("job_postings").update({ is_open: false, updated_at: new Date().toISOString() }).eq("id", job.id);
+      const { data: closedJob, error: closeError } = await supabase.from("job_postings").update({ is_open: false, updated_at: new Date().toISOString() }).eq("id", job.id).select("id").maybeSingle();
       setActionLoadingId(null);
-      if (closeError) return setError(closeError.message);
+      if (closeError || !closedJob) return setError(closeError?.message || "Posting was not archived. Check your company permissions.");
       setRows((current) => current.map((item) => item.id === job.id ? { ...item, is_open: false } : item));
       return;
     }
